@@ -1,25 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account management: {{pageTitle}}</title>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
-    <link rel="stylesheet" href="/Register_IE/static/css/styles.css">
-</head>
-<body>
-    <header class="container">
+{% extends "base.html" %}
 
-    </header>
+{% block section %}
 
-    <section class="container">
-        <h1>Movements list</h1>
-    </section>
-
-    <footer class="container">
-        &copy; 2023 - EG
-    </footer>
-    
-</body>
-</html>
+<h1>Movements list</h1>
+    <table role="grid">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Concept</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movements in data %}
+            <tr>
+                <td>{{movements.date}}</td>
+                <td>{{movements.concept}}</td>
+                <td>{{movements.quantity}}€</td>
+                <td>
+                    <a href="/update/{{movements.id}}">
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+                    </a>
+                    <a href="#/delete/{movements.id}}">
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block section %}
+
+<form action="/new" method="post">
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" value="{{dataForm.date}}" required>
+    
+    <label for="concept">Concept:</label>
+    <input type="concept" id="concept" name="concept" value="{{dataForm.concept}}" placeholder="Where did you spend your money on?">
+
+    <label for="quantity">Quantity:</label>
+    <input type="quantity" id="quantity" name="quantity" value="{{dataForm.quantity}}" placeholder="How much?" step="0.01">
+
+    <button type="submit">Save</button>
+  
+  </form>
+
+  <article>
+    <ul>
+       {% for item in msgError %}     
+            <li class="error">{{item}}</li>
+       {% endfor %}     
+    </ul>
+</article>
+
+  {% endblock %}

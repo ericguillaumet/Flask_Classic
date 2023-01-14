@@ -22,3 +22,6 @@ def select_all():
         result.append(data)
 
     return result
+
+def insert (register):
+    pass

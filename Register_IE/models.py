@@ -21,7 +21,14 @@ def select_all():
             position += 1
         result.append(data)
 
+    con.close()
     return result
 
 def insert (register):
-    pass
+    con = sqlite3.connect(ORIGIN_DATA) #Connection, check python SQL library
+    cur = con.cursor()
+    cur.execute("insert into movements(date,concept,quantity) values(?,?,?)", register)
+
+    con.commit() #Función que hace el registro
+
+    con.close()

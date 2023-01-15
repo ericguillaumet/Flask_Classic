@@ -1,7 +1,7 @@
 from datetime import date
 from Register_IE import app
-from flask import render_template, request
-from Register_IE.models import select_all
+from flask import render_template, request, redirect, url_for
+from Register_IE.models import select_all, insert
 
 
 def validateForm(requestForm):
@@ -36,4 +36,8 @@ def create():
         if errors:
             return render_template("new.html", msgError = errors, dataForm = request.form)
         else:
-            return "Here I should register the form data"
+            insert([request.form['date'],
+                    request.form['concept'],
+                    request.form['quantity']])
+
+            return redirect(url_for('index'))

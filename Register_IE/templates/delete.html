@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block section %}
+
+<h1>This is for delete</h1>
+
+<article>
+    <p><strong>Date: </strong>{{data[1]}}</p>
+    <p><strong>Concept: </strong>{{data[2]}}</p>
+    <p><strong>Quantity: </strong>{{data[3]}}</p>
+</article>
+
+<form action="/delete/{{data[0]}}" method="post">
+    <button type="submit" style="background-color: #43a047;">Delete</button>
+</form>
+
+{% endblock %}

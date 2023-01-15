@@ -1,7 +1,7 @@
 from datetime import date
 from Register_IE import app
 from flask import render_template, request, redirect, url_for
-from Register_IE.models import select_all, insert
+from Register_IE.models import select_all, insert, select_by, delete_by
 
 
 def validateForm(requestForm):
@@ -41,3 +41,13 @@ def create():
                     request.form['quantity']])
 
             return redirect(url_for('index'))
+
+@app.route("/delete/<int:id>", methods=["GET", "POST"])
+def remove(id):
+    if request.method =="GET":
+        result = select_by(id)
+        return render_template("delete.html", data=result) 
+
+    else:
+        delete_by(id)
+        return redirect(url_for('index'))

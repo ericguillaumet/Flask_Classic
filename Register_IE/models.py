@@ -4,10 +4,10 @@ from Register_IE.connection import Connection
 
 def select_all():
 
-    con = Connection("SELECT id,date,concept,quantity FROM movements order by date;")
+    connect = Connection("SELECT id,date,concept,quantity FROM movements order by date;")
 
-    rows = con.res.fetchall() #capturo las filas de datos
-    columns = con.res.description #capturo los nombres de columnas
+    rows = connect.res.fetchall() #capturo las filas de datos
+    columns = connect.res.description #capturo los nombres de columnas
     
     result = [] #lista para guardar diccionario
 
@@ -20,25 +20,25 @@ def select_all():
             position += 1
         result.append(data)
 
-    con.close()
+    connect.con.close()
     return result
 
 def insert (register):
-    con = Connection("insert into movements(date,concept,quantity) values(?,?,?)", register)
-
-    con.commit() #Función que hace el registro
-
-    con.close() #Cerrar conexión
+    connectInsert = Connection("insert into movements(date,concept,quantity) values(?,?,?)", register)
+    connectInsert.con.commit() #Función que hace el registro
+    connectInsert.con.close() #Cerrar conexión
 
 def select_by(id):
-    con = Connection(f"SELECT id,date,concept,quantity FROM movements WHERE id={id}")
+    connectSelectBy = Connection(f"SELECT id,date,concept,quantity FROM movements WHERE id={id}")
     
-    result = con.res.fetchall()
+    result = connectSelectBy.res.fetchall()
+    connectSelectBy.con.close()
+
     return result[0]
 
 def delete_by(id):
-    con = Connection(f"DELETE FROM movements WHERE id={id}")
+    connectDeleteBy = Connection(f"DELETE FROM movements WHERE id={id}")
 
-    con.commit()
+    connectDeleteBy.con.commit()
 
-    con.close()
+    connectDeleteBy.con.close()

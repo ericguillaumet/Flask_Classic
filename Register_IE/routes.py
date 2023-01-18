@@ -19,7 +19,7 @@ def index():
 def create():
     form = MovementsForm()
     if request.method == "GET":
-        return render_template("new.html", dataForm = form)
+        return render_template("new.html", dataForm = form, pageTitle="Admission")
 
     else:
         if form.validate_on_submit():
@@ -61,7 +61,7 @@ def update(id):
         formUpdate.concept.data = result[2] 
         formUpdate.quantity.data = result[3]
 
-        return render_template("update.html", dataForm = formUpdate, id = result[0])
+        return render_template("update.html", dataForm = formUpdate, id = result[0], pageTitle="Modification")
     else:
         if formUpdate.validate_on_submit():
             
@@ -79,7 +79,7 @@ def update(id):
 def remove(id):
     if request.method =="GET":
         result = select_by(id)
-        return render_template("delete.html", data=result) 
+        return render_template("delete.html", data=result, pageTitle="Delete") 
 
     else:
         delete_by(id)

@@ -3,6 +3,7 @@
 {% block section %}
 
 <h1>Movements list</h1>
+{% if data %}
     <table role="grid">
         <thead>
             <tr>
@@ -34,4 +35,7 @@
             {% endfor%}
         </tbody>
     </table>
+{% else %}
+<h5>There is no movement data</h5>
+{% endif %}
 {% endblock %}

@@ -1,6 +1,6 @@
 from datetime import date
 from Register_IE import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from Register_IE.forms import MovementsForm
 from Register_IE.models import select_all, insert, select_by, delete_by
 
@@ -27,7 +27,8 @@ def create():
             insert([form.date.data.isoformat(),
                     form.concept.data,
                     form.quantity.data])
-
+            
+            flash('Movement registered')
             return redirect(url_for('index'))     
         else:
             return render_template("new.html", msgError = {}, dataForm = form)
@@ -57,4 +58,5 @@ def remove(id):
 
     else:
         delete_by(id)
+        flash('Movement deleted')
         return redirect(url_for('index'))

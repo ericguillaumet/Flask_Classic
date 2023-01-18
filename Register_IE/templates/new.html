@@ -3,19 +3,44 @@
 
 <form action="/new" method="post">
 
-    <label for="date">Date:</label>
-    <input type="date" id="date" name="date" value="{{dataForm.date}}" required>
-    
-    <label for="concept">Concept:</label>
-    <input type="concept" id="concept" name="concept" value="{{dataForm.concept}}" placeholder="Where did you spend your money on?">
+  {{ dataForm.csrf_token }}
 
-    <label for="quantity">Quantity:</label>
-    <input type="quantity" id="quantity" name="quantity" value="{{dataForm.quantity}}" placeholder="How much?" step="0.01">
+  {{ dataForm.date.label }}
+  {{ dataForm.date }}
 
-    <button type="submit">Save</button>
+  {% if dataForm.date.errors %}
+    <ul class="errors">
+    {% for error in dataForm.date.errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+  {{ dataForm.concept.label }}
+  {{ dataForm.concept(placeholder="Where did you spend your money on?") }}
+
+  {% if dataForm.concept.errors %}
+  <ul class="errors">
+  {% for error in dataForm.concept.errors %}
+      <li>{{ error }}</li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+
+  {{ dataForm.quantity.label }}
+  {{ dataForm.quantity(placeholder="How much?")}}
+
+  {% if dataForm.quantity.errors %}
+  <ul class="errors">
+  {% for error in dataForm.quantity.errors %}
+      <li>{{ error }}</li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+
+  {{ dataForm.submit }}
   
   </form>
-
   <article>
     <ul>
        {% for item in msgError %}     
@@ -24,4 +49,4 @@
     </ul>
 </article>
 
-  {% endblock %}
+{% endblock %}

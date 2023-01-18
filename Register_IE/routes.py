@@ -1,19 +1,8 @@
 from datetime import date
 from Register_IE import app
 from flask import render_template, request, redirect, url_for
+from Register_IE.forms import MovementsForm
 from Register_IE.models import select_all, insert, select_by, delete_by
-
-
-def validateForm(requestForm):
-    today = date.today().isoformat() #isoformat lo transforma en string
-    errors =[]
-    if requestForm['date'] > today:
-        errors.append("Date: the introduced date is not valid")
-    if requestForm['concept'] == "":
-        errors.append("Empty concept: Introduce a concept for the register")
-    if requestForm['quantity'] == "" or float(requestForm['quantity']) == 0.0:
-        errors.append("The quantity is empty or equals zero: Introduce a positive or negative quantity")
-    return errors
 
 @app.route("/")
 def index():
@@ -28,8 +17,25 @@ def index():
 
 @app.route("/new", methods=["GET", "POST"])
 def create():
+    form = MovementsForm()
     if request.method == "GET":
-        return render_template("new.html", dataForm = None)
+        return render_template("new.html", dataForm = form)
+
+    else:
+        if form.validate_on_submit():
+            
+            insert([form.date.data.isoformat(),
+                    form.concept.data,
+                    form.quantity.data])
+
+            return redirect(url_for('index'))     
+        else:
+            return render_template("new.html", msgError = {}, dataForm = form)
+
+    """ 
+    WITHOUT WTF FORM
+    if request.method == "GET":
+        return render_template("new.html", dataForm = {})
     else:
         errors = validateForm(request.form)
 
@@ -41,6 +47,7 @@ def create():
                     request.form['quantity']])
 
             return redirect(url_for('index'))
+    """
 
 @app.route("/delete/<int:id>", methods=["GET", "POST"])
 def remove(id):

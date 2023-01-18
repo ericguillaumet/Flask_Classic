@@ -1,8 +1,8 @@
-from datetime import date
+from datetime import date, datetime
 from Register_IE import app
 from flask import render_template, request, redirect, url_for, flash
 from Register_IE.forms import MovementsForm
-from Register_IE.models import select_all, insert, select_by, delete_by
+from Register_IE.models import select_all, insert, select_by, delete_by, update_by
 
 @app.route("/")
 def index():
@@ -31,7 +31,7 @@ def create():
             flash('Movement registered')
             return redirect(url_for('index'))     
         else:
-            return render_template("new.html", msgError = {}, dataForm = form)
+            return render_template("new.html", dataForm = form)
 
     """ 
     WITHOUT WTF FORM
@@ -49,6 +49,31 @@ def create():
 
             return redirect(url_for('index'))
     """
+
+@app.route("/update/<int:id>", methods=["GET", "POST"])
+def update(id):
+    formUpdate = MovementsForm()
+    if request.method == "GET":
+
+        result = select_by(id)
+
+        formUpdate.date.data = datetime.strptime(result[1], "%Y-%m-%d")
+        formUpdate.concept.data = result[2] 
+        formUpdate.quantity.data = result[3]
+
+        return render_template("update.html", dataForm = formUpdate, id = result[0])
+    else:
+        if formUpdate.validate_on_submit():
+            
+            update_by(id, [formUpdate.date.data.isoformat(),
+                    formUpdate.concept.data,
+                    formUpdate.quantity.data])
+            
+            flash('Movement updated')
+            return redirect(url_for('index'))  
+
+        else:
+            return render_template("update.html", dataForm = formUpdate, id = id)
 
 @app.route("/delete/<int:id>", methods=["GET", "POST"])
 def remove(id):

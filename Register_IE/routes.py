@@ -2,7 +2,7 @@ from datetime import date, datetime
 from Register_IE import app
 from flask import render_template, request, redirect, url_for, flash
 from Register_IE.forms import MovementsForm
-from Register_IE.models import select_all, insert, select_by, delete_by, update_by
+from Register_IE.models import *
 
 @app.route("/")
 def index():
@@ -13,7 +13,7 @@ def index():
         {"id": 2, "date": "2023-01-05", "concept":"Cake", "quantity": -10},
         {"id": 3, "date": "2023-01-06", "concept":"Clothes", "quantity": -40},
     ]
-    return render_template("index.html", pageTitle="All", data=registers)
+    return render_template("index.html", pageTitle="All", data=registers, income=select_income(), expense=select_expense())
 
 @app.route("/new", methods=["GET", "POST"])
 def create():

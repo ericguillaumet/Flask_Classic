@@ -2,7 +2,11 @@
 
 {% block section %}
 
+<h5>Total Incomes: {{income}}€</h5>
+<h5>Total Expenses: {{expense}}€</h5>
+<h5>Salary: {{income + expense}}€</h5>
 <h1>Movements list</h1>
+
 {% if data %}
     <table role="grid">
         <thead>

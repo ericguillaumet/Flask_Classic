@@ -2,6 +2,19 @@ import sqlite3
 from config import *
 from Register_IE.connection import Connection
 
+def select_income():
+    connectSelectIncome = Connection("SELECT sum(quantity) FROM movements WHERE quantity > 0")
+    result = connectSelectIncome.res.fetchall()
+    connectSelectIncome.con.close()
+    return result[0][0]
+
+def select_expense():
+    connectSelectExpense = Connection("SELECT sum(quantity) FROM movements WHERE quantity < 0")
+    result = connectSelectExpense.res.fetchall()
+    connectSelectExpense.con.close()
+    return result[0][0]
+
+
 def select_all():
 
     connect = Connection("SELECT id,date,concept,quantity FROM movements order by date;")
